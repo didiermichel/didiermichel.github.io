@@ -1,0 +1,578 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="EnterpriseDB https://www.enterprisedb.com" />
+  <meta name="date" content="2023-01-26" />
+  <title>BARMAN(1) Barman User manuals | Version 3.4.0</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="./html-templates/template.css" />
+</head>
+<body data-spy="scroll" data-target=".bs-docs-sidebar" >
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li>
+                <a href="http://www.pgbarman.org/" title="visit Barman homepage">Barman</a>
+              </li>
+              <li>
+                <a href="http://www.2ndQuadrant.com/" title="visit 2ndQuadrant homepage">2ndQuadrant</a>
+              </li>
+              <li>
+                <a href="index.html">manual</a>
+              </li>
+              <li>
+                <a href="barman.1.html" title="Section 1 of the man page for Barman">man1</a>
+              </li>
+              <li>
+                <a href="barman.5.html" title="Section 5 of the man page for Barman">man5</a>
+              </li>
+              </ul>
+              <ul class="nav">
+              <li>
+                <a href="barman-cloud-backup.1.html" title="Section 1 of the man page for barman-cloud-backup command">cloud backup</a>
+              </li>
+              <li>
+                <a href="barman-cloud-backup-list.1.html" title="Section 1 of the man page for barman-cloud-backup-list command">cloud backup list</a>
+              </li>
+              <li>
+                <a href="barman-cloud-backup-show.1.html" title="Section 1 of the man page for barman-cloud-backup-show command">cloud backup show</a>
+              </li>
+              <li>
+                <a href="barman-cloud-backup-delete.1.html" title="Section 1 of the man page for barman-cloud-backup-delete command">cloud backup delete</a>
+              </li>
+              <li>
+                <a href="barman-cloud-backup-keep.1.html" title="Section 1 of the man page for barman-cloud-backup-keep command">cloud backup keep</a>
+              </li>
+              <li>
+                <a href="barman-cloud-restore.1.html" title="Section 1 of the man page for barman-cloud-restore command">cloud restore</a>
+              </li>
+              <li>
+                <a href="barman-cloud-wal-archive.1.html" title="Section 1 of the man page for barman-cloud-wal-archive command">cloud wal archive</a>
+              </li>
+              <li>
+                <a href="barman-cloud-check-wal-archive.1.html" title="Section 1 of the man page for barman-cloud-check-wal-archive command">cloud check wal archive</a>
+              </li>
+              <li>
+                <a href="barman-cloud-wal-restore.1.html" title="Section 1 of the man page for barman-cloud-wal-restore command">cloud wal restore</a>
+              </li>
+              <li>
+                <a href="barman-wal-archive.1.html" title="Section 1 of the man page for barman-wal-archive command">wal archive</a>
+              </li>
+              <li>
+                <a href="barman-wal-restore.1.html" title="Section 1 of the man page for barman-wal-restore command">wal restore</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">BARMAN(1) Barman User manuals | Version 3.4.0</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">EnterpriseDB <a href="https://www.enterprisedb.com" class="uri">https://www.enterprisedb.com</a></p></li>
+                              <li><p class="navbar-text">January 26, 2023</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+        <ul id="toc" class="nav">
+          <li class="nav-header">Table of Contents</li>
+        </ul>
+        <ul>
+        <li><a href="#name">NAME</a></li>
+        <li><a href="#synopsis">SYNOPSIS</a></li>
+        <li><a href="#description">DESCRIPTION</a></li>
+        <li><a href="#options">OPTIONS</a></li>
+        <li><a href="#commands">COMMANDS</a></li>
+        <li><a href="#shortcuts">BACKUP ID SHORTCUTS</a></li>
+        <li><a href="#exit-status">EXIT STATUS</a></li>
+        <li><a href="#see-also">SEE ALSO</a></li>
+        <li><a href="#bugs">BUGS</a></li>
+        <li><a href="#authors">AUTHORS</a></li>
+        <li><a href="#resources">RESOURCES</a></li>
+        <li><a href="#copying">COPYING</a></li>
+        </ul>
+        </div>
+      </div>
+            <div id="CONTENT" class="span9">
+            <h1 id="name">NAME</h1>
+<p>barman - Backup and Recovery Manager for PostgreSQL</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>barman [<em>OPTIONS</em>] <em>COMMAND</em></p>
+<h1 id="description">DESCRIPTION</h1>
+<p>Barman is an administration tool for disaster recovery of PostgreSQL servers written in Python and maintained by EnterpriseDB. Barman can perform remote backups of multiple servers in business critical environments and helps DBAs during the recovery phase.</p>
+<h1 id="options">OPTIONS</h1>
+<dl>
+<dt>-h, --help</dt>
+<dd>Show a help message and exit.
+</dd>
+<dt>-v, --version</dt>
+<dd>Show program version number and exit.
+</dd>
+<dt>-c <em>CONFIG</em>, --config <em>CONFIG</em></dt>
+<dd>Use the specified configuration file.
+</dd>
+<dt>--color <em>{never,always,auto}</em>, --colour <em>{never,always,auto}</em></dt>
+<dd>Whether to use colors in the output (default: <em>auto</em>)
+</dd>
+<dt>-q, --quiet</dt>
+<dd>Do not output anything. Useful for cron scripts.
+</dd>
+<dt>-d, --debug</dt>
+<dd>debug output (default: False)
+</dd>
+<dt>--log-level {NOTSET,DEBUG,INFO,WARNING,ERROR,CRITICAL}</dt>
+<dd>Override the default log level
+</dd>
+<dt>-f {json,console}, --format {json,console}</dt>
+<dd>output format (default: 'console')
+</dd>
+</dl>
+<h1 id="commands">COMMANDS</h1>
+<p>Important: every command has a help option</p>
+<dl>
+<dt>archive-wal <em>SERVER_NAME</em></dt>
+<dd>Get any incoming xlog file (both through standard <code>archive_command</code> and streaming replication, where applicable) and moves them in the WAL archive for that server. If necessary, apply compression when requested by the user.
+</dd>
+<dt>backup <em>SERVER_NAME</em></dt>
+<dd><p>Perform a backup of <code>SERVER_NAME</code> using parameters specified in the configuration file. Specify <code>all</code> as <code>SERVER_NAME</code> to perform a backup of all the configured servers. You can also specify <code>SERVER_NAME</code> multiple times to perform a backup of the specified servers -- e.g. <code>barman backup SERVER_1_NAME SERVER_2_NAME</code>.</p>
+<dl>
+<dt>--name</dt>
+<dd>a friendly name for this backup which can be used in place of the backup ID in barman commands.
+</dd>
+<dt>--immediate-checkpoint</dt>
+<dd>forces the initial checkpoint to be done as quickly as possible. Overrides value of the parameter <code>immediate_checkpoint</code>, if present in the configuration file.
+</dd>
+<dt>--no-immediate-checkpoint</dt>
+<dd>forces to wait for the checkpoint. Overrides value of the parameter <code>immediate_checkpoint</code>, if present in the configuration file.
+</dd>
+<dt>--reuse-backup [INCREMENTAL_TYPE]</dt>
+<dd><p>Overrides <code>reuse_backup</code> option behaviour. Possible values for <code>INCREMENTAL_TYPE</code> are:</p>
+<ul>
+<li><em>off</em>: do not reuse the last available backup;</li>
+<li><em>copy</em>: reuse the last available backup for a server and create a copy of the unchanged files (reduce backup time);</li>
+<li><em>link</em>: reuse the last available backup for a server and create a hard link of the unchanged files (reduce backup time and space);</li>
+</ul>
+<p><code>link</code> is the default target if <code>--reuse-backup</code> is used and <code>INCREMENTAL_TYPE</code> is not explicit.</p>
+</dd>
+<dt>--retry-times</dt>
+<dd>Number of retries of base backup copy, after an error. Used during both backup and recovery operations. Overrides value of the parameter <code>basebackup_retry_times</code>, if present in the configuration file.
+</dd>
+<dt>--no-retry</dt>
+<dd>Same as <code>--retry-times 0</code>
+</dd>
+<dt>--retry-sleep</dt>
+<dd>Number of seconds of wait after a failed copy, before retrying. Used during both backup and recovery operations. Overrides value of the parameter <code>basebackup_retry_sleep</code>, if present in the configuration file.
+</dd>
+<dt>-j, --jobs</dt>
+<dd>Number of parallel workers to copy files during backup. Overrides value of the parameter <code>parallel_jobs</code>, if present in the configuration file.
+</dd>
+<dt>--bwlimit KBPS</dt>
+<dd>maximum transfer rate in kilobytes per second. A value of 0 means no limit. Overrides 'bandwidth_limit' configuration option. Default is undefined.
+</dd>
+<dt>--wait, -w</dt>
+<dd>wait for all required WAL files by the base backup to be archived
+</dd>
+<dt>--wait-timeout</dt>
+<dd>the time, in seconds, spent waiting for the required WAL files to be archived before timing out
+</dd>
+</dl>
+</dd>
+<dt>check-backup <em>SERVER_NAME</em> <em>BACKUP_ID</em></dt>
+<dd>Make sure that all the required WAL files to check the consistency of a physical backup (that is, from the beginning to the end of the full backup) are correctly archived. This command is automatically invoked by the <code>cron</code> command and at the end of every backup operation.
+</dd>
+<dt>check-wal-archive <em>SERVER_NAME</em></dt>
+<dd><p>Check that the WAL archive destination for <em>SERVER_NAME</em> is safe to use for a new PostgreSQL cluster. With no optional args (the default) this will pass if the WAL archive is empty and fail otherwise.</p>
+<dl>
+<dt>--timeline [TIMELINE]</dt>
+<dd>A positive integer specifying the earliest timeline for which associated WALs should cause the check to fail. The check will pass if all WAL content in the archive relates to earlier timelines. If any WAL files are on this timeline or greater then the check will fail.
+</dd>
+</dl>
+</dd>
+<dt>check <em>SERVER_NAME</em></dt>
+<dd><p>Show diagnostic information about <code>SERVER_NAME</code>, including: Ssh connection check, PostgreSQL version, configuration and backup directories, archiving process, streaming process, replication slots, etc. Specify <code>all</code> as <code>SERVER_NAME</code> to show diagnostic information about all the configured servers.</p>
+<dl>
+<dt>--nagios</dt>
+<dd>Nagios plugin compatible output
+</dd>
+</dl>
+</dd>
+<dt>cron</dt>
+<dd><p>Perform maintenance tasks, such as enforcing retention policies or WAL files management.</p>
+<dl>
+<dt>--keep-descriptors</dt>
+<dd>Keep the stdout and the stderr streams of the Barman subprocesses attached to this one. This is useful for Docker based installations.
+</dd>
+</dl>
+</dd>
+<dt>delete <em>SERVER_NAME</em> <em>BACKUP_ID</em></dt>
+<dd>Delete the specified backup. <a href="#shortcuts">Backup ID shortcuts</a> section below for available shortcuts.
+</dd>
+<dt>diagnose</dt>
+<dd>Collect diagnostic information about the server where barman is installed and all the configured servers, including: global configuration, SSH version, Python version, <code>rsync</code> version, as well as current configuration and status of all servers.
+</dd>
+<dt>get-wal <em>[OPTIONS]</em> <em>SERVER_NAME</em> <em>WAL_NAME</em></dt>
+<dd><p>Retrieve a WAL file from the <code>xlog</code> archive of a given server. By default, the requested WAL file, if found, is returned as uncompressed content to <code>STDOUT</code>. The following options allow users to change this behaviour:</p>
+<dl>
+<dt>-o <em>OUTPUT_DIRECTORY</em></dt>
+<dd>destination directory where the <code>get-wal</code> will deposit the requested WAL
+</dd>
+<dt>-P, --partial</dt>
+<dd>retrieve also partial WAL files (.partial)
+</dd>
+<dt>-z</dt>
+<dd>output will be compressed using gzip
+</dd>
+<dt>-j</dt>
+<dd>output will be compressed using bzip2
+</dd>
+<dt>-p <em>SIZE</em></dt>
+<dd>peek from the WAL archive up to <em>SIZE</em> WAL files, starting from the requested one. 'SIZE' must be an integer &gt;= 1. When invoked with this option, get-wal returns a list of zero to 'SIZE' WAL segment names, one per row.
+</dd>
+<dt>-t, --test</dt>
+<dd>test both the connection and the configuration of the requested PostgreSQL server in Barman for WAL retrieval. With this option, the 'WAL_NAME' mandatory argument is ignored.
+</dd>
+</dl>
+</dd>
+<dt>keep <em>SERVER_NAME</em> <em>BACKUP_ID</em></dt>
+<dd><p>Flag the specified backup as an archival backup which should be kept forever, regardless of any retention policies in effect. See the <a href="#shortcuts">Backup ID shortcuts</a> section below for available shortcuts.</p>
+<dl>
+<dt>--target <em>RECOVERY_TARGET</em></dt>
+<dd><p>Specify the recovery target for the archival backup. Possible values for <em>RECOVERY_TARGET</em> are:</p>
+<ul>
+<li><em>full</em>: The backup can always be used to recover to the latest point in time. To achieve this, Barman will retain all WALs needed to ensure consistency of the backup and all subsequent WALs.</li>
+<li><em>standalone</em>: The backup can only be used to recover the server to its state at the time the backup was taken. Barman will only retain the WALs needed to ensure consistency of the backup.</li>
+</ul>
+</dd>
+<dt>--status</dt>
+<dd>Report the archival status of the backup. This will either be the recovery target of <em>full</em> or <em>standalone</em> for archival backups or <em>nokeep</em> for backups which have not been flagged as archival.
+</dd>
+<dt>--release</dt>
+<dd>Release the keep flag from this backup. This will remove its archival status and make it available for deletion, either directly or by retention policy.
+</dd>
+</dl>
+</dd>
+<dt>list-backups <em>SERVER_NAME</em></dt>
+<dd>Show available backups for <code>SERVER_NAME</code>. This command is useful to retrieve a backup ID. For example:
+</dd>
+</dl>
+<pre><code>servername 20111104T102647 - Fri Nov  4 10:26:48 2011 - Size: 17.0 MiB - WAL Size: 100 B</code></pre>
+<pre><code>In this case, *20111104T102647* is the backup ID.</code></pre>
+<dl>
+<dt>list-files <em>[OPTIONS]</em> <em>SERVER_NAME</em> <em>BACKUP_ID</em></dt>
+<dd><p>List all the files in a particular backup, identified by the server name and the backup ID. See the <a href="#shortcuts">Backup ID shortcuts</a> section below for available shortcuts.</p>
+<dl>
+<dt>--target <em>TARGET_TYPE</em></dt>
+<dd><p>Possible values for TARGET_TYPE are:</p>
+<ul>
+<li><em>data</em>: lists just the data files;</li>
+<li><em>standalone</em>: lists the base backup files, including required WAL files;</li>
+<li><em>wal</em>: lists all the WAL files between the start of the base backup and the end of the log / the start of the following base backup (depending on whether the specified base backup is the most recent one available);</li>
+<li><em>full</em>: same as data + wal.</li>
+</ul>
+<p>The default value is <code>standalone</code>.</p>
+</dd>
+</dl>
+</dd>
+<dt>list-servers</dt>
+<dd>Show all the configured servers, and their descriptions.
+</dd>
+<dt>put-wal <em>[OPTIONS]</em> <em>SERVER_NAME</em></dt>
+<dd><p>Receive a WAL file from a remote server and securely store it into the <code>SERVER_NAME</code> incoming directory. The WAL file is retrieved from the <code>STDIN</code>, and must be encapsulated in a tar stream together with a <code>MD5SUMS</code> file to validate it. This command is meant to be invoked through SSH from a remote <code>barman-wal-archive</code> utility (part of <code>barman-cli</code> package). Do not use this command directly unless you take full responsibility of the content of files.</p>
+<dl>
+<dt>-t, --test</dt>
+<dd>test both the connection and the configuration of the requested PostgreSQL server in Barman to make sure it is ready to receive WAL files.
+</dd>
+</dl>
+</dd>
+<dt>rebuild-xlogdb <em>SERVER_NAME</em></dt>
+<dd>Perform a rebuild of the WAL file metadata for <code>SERVER_NAME</code> (or every server, using the <code>all</code> shortcut) guessing it from the disk content. The metadata of the WAL archive is contained in the <code>xlog.db</code> file, and every Barman server has its own copy.
+</dd>
+<dt>receive-wal <em>SERVER_NAME</em></dt>
+<dd><p>Start the stream of transaction logs for a server. The process relies on <code>pg_receivewal</code>/<code>pg_receivexlog</code> to receive WAL files from the PostgreSQL servers through the streaming protocol.</p>
+<dl>
+<dt>--stop</dt>
+<dd>stop the receive-wal process for the server
+</dd>
+<dt>--reset</dt>
+<dd>reset the status of receive-wal, restarting the streaming from the current WAL file of the server
+</dd>
+<dt>--create-slot</dt>
+<dd>create the physical replication slot configured with the <code>slot_name</code> configuration parameter
+</dd>
+<dt>--drop-slot</dt>
+<dd>drop the physical replication slot configured with the <code>slot_name</code> configuration parameter
+</dd>
+</dl>
+</dd>
+<dt>recover <em>[OPTIONS]</em> <em>SERVER_NAME</em> <em>BACKUP_ID</em> <em>DESTINATION_DIRECTORY</em></dt>
+<dd><p>Recover a backup in a given directory (local or remote, depending on the <code>--remote-ssh-command</code> option settings). See the <a href="#shortcuts">Backup ID shortcuts</a> section below for available shortcuts.</p>
+<dl>
+<dt>--target-tli <em>TARGET_TLI</em></dt>
+<dd>Recover the specified timeline. The special values <code>current</code> and <code>latest</code> can be used in addition to a numeric timeline ID. The default behaviour for PostgreSQL versions &gt;= 12 is to recover to the <code>latest</code> timeline in the WAL archive. The default for PostgreSQL versions &lt; 12 is to recover along the timeline which was current when the backup was taken.
+</dd>
+<dt>--target-time <em>TARGET_TIME</em></dt>
+<dd><p>Recover to the specified time.</p>
+<p>You can use any valid unambiguous representation (e.g: &quot;YYYY-MM-DD HH:MM:SS.mmm&quot;).</p>
+</dd>
+<dt>--target-xid <em>TARGET_XID</em></dt>
+<dd>Recover to the specified transaction ID.
+</dd>
+<dt>--target-lsn <em>TARGET_LSN</em></dt>
+<dd>Recover to the specified LSN (Log Sequence Number). Requires PostgreSQL 10 or above.
+</dd>
+<dt>--target-name <em>TARGET_NAME</em></dt>
+<dd>Recover to the named restore point previously created with the <code>pg_create_restore_point(name)</code>.
+</dd>
+<dt>--target-immediate</dt>
+<dd>Recover ends when a consistent state is reached (end of the base backup)
+</dd>
+<dt>--exclusive</dt>
+<dd>Set target (time, XID or LSN) to be non inclusive.
+</dd>
+<dt>--target-action <em>ACTION</em></dt>
+<dd>Trigger the specified action once the recovery target is reached. Possible actions are: <code>pause</code>, <code>shutdown</code> and <code>promote</code>. This option requires a target to be defined, with one of the above options.
+</dd>
+<dt>--tablespace <em>NAME:LOCATION</em></dt>
+<dd>Specify tablespace relocation rule.
+</dd>
+<dt>--remote-ssh-command <em>SSH_COMMAND</em></dt>
+<dd>This options activates remote recovery, by specifying the secure shell command to be launched on a remote host. This is the equivalent of the &quot;ssh_command&quot; server option in the configuration file for remote recovery. Example: 'ssh postgres@db2'.
+</dd>
+<dt>--retry-times <em>RETRY_TIMES</em></dt>
+<dd>Number of retries of data copy during base backup after an error. Overrides value of the parameter <code>basebackup_retry_times</code>, if present in the configuration file.
+</dd>
+<dt>--no-retry</dt>
+<dd>Same as <code>--retry-times 0</code>
+</dd>
+<dt>--retry-sleep</dt>
+<dd>Number of seconds of wait after a failed copy, before retrying. Overrides value of the parameter <code>basebackup_retry_sleep</code>, if present in the configuration file.
+</dd>
+<dt>--bwlimit KBPS</dt>
+<dd>maximum transfer rate in kilobytes per second. A value of 0 means no limit. Overrides 'bandwidth_limit' configuration option. Default is undefined.
+</dd>
+<dt>-j , --jobs</dt>
+<dd>Number of parallel workers to copy files during recovery. Overrides value of the parameter <code>parallel_jobs</code>, if present in the configuration file. Works only for servers configured through <code>rsync</code>/SSH.
+</dd>
+<dt>--get-wal, --no-get-wal</dt>
+<dd>Enable/Disable usage of <code>get-wal</code> for WAL fetching during recovery. Default is based on <code>recovery_options</code> setting.
+</dd>
+<dt>--network-compression, --no-network-compression</dt>
+<dd>Enable/Disable network compression during remote recovery. Default is based on <code>network_compression</code> configuration setting.
+</dd>
+<dt>--standby-mode</dt>
+<dd>Specifies whether to start the PostgreSQL server as a standby. Default is undefined.
+</dd>
+<dt>--recovery-staging-path <em>STAGING_PATH</em></dt>
+<dd>A path to a location on the recovery host (either the barman server or a remote host if --remote-ssh-command is also used) where files for a compressed backup will be staged before being uncompressed to the destination directory. Backups will be staged in their own directory within the staging path according to the following naming convention: &quot;barman-staging-SERVER_NAME-BACKUP_ID&quot;. The staging directory within the staging path will be removed at the end of the recovery process. This option is <em>required</em> when recovering from compressed backups and has no effect otherwise.
+</dd>
+<dt>--snapshot-recovery-instance <em>INSTANCE_NAME</em></dt>
+<dd>Name of the instance where the disks recovered from the snapshots are attached. This option is required when recovering backups made with <code>backup_method = snapshot</code>.
+</dd>
+<dt>--snapshot-recovery-zone <em>ZONE_NAME</em></dt>
+<dd>Name of the availability zone where the instance and disks for snapshot are located. This option is required when recovering backups made with <code>backup_method = snapshot</code>.
+</dd>
+</dl>
+</dd>
+<dt>replication-status <em>[OPTIONS]</em> <em>SERVER_NAME</em></dt>
+<dd><p>Shows live information and status of any streaming client attached to the given server (or servers). Default behaviour can be changed through the following options:</p>
+<dl>
+<dt>--minimal</dt>
+<dd>machine readable output (default: False)
+</dd>
+<dt>--target <em>TARGET_TYPE</em></dt>
+<dd><p>Possible values for TARGET_TYPE are:</p>
+<ul>
+<li><em>hot-standby</em>: lists only hot standby servers</li>
+<li><em>wal-streamer</em>: lists only WAL streaming clients, such as pg_receivewal</li>
+<li><em>all</em>: any streaming client (default)</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>show-backup <em>SERVER_NAME</em> <em>BACKUP_ID</em></dt>
+<dd>Show detailed information about a particular backup, identified by the server name and the backup ID. See the <a href="#shortcuts">Backup ID shortcuts</a> section below for available shortcuts. For example:
+</dd>
+</dl>
+<pre><code>Backup 20150828T130001:
+  Server Name            : quagmire
+  Status                 : DONE
+  PostgreSQL Version     : 90402
+  PGDATA directory       : /srv/postgresql/9.4/main/data
+
+  Base backup information:
+    Disk usage           : 12.4 TiB (12.4 TiB with WALs)
+    Incremental size     : 4.9 TiB (-60.02%)
+    Timeline             : 1
+    Begin WAL            : 0000000100000CFD000000AD
+    End WAL              : 0000000100000D0D00000008
+    WAL number           : 3932
+    WAL compression ratio: 79.51%
+    Begin time           : 2015-08-28 13:00:01.633925+00:00
+    End time             : 2015-08-29 10:27:06.522846+00:00
+    Begin Offset         : 1575048
+    End Offset           : 13853016
+    Begin XLOG           : CFD/AD180888
+    End XLOG             : D0D/8D36158
+
+  WAL information:
+    No of files          : 35039
+    Disk usage           : 121.5 GiB
+    WAL rate             : 275.50/hour
+    Compression ratio    : 77.81%
+    Last available       : 0000000100000D95000000E7
+
+  Catalog information:
+    Retention Policy     : not enforced
+    Previous Backup      : 20150821T130001
+    Next Backup          : - (this is the latest base backup)</code></pre>
+<dl>
+<dt>show-servers <em>SERVER_NAME</em></dt>
+<dd>Show information about <code>SERVER_NAME</code>, including: <code>conninfo</code>, <code>backup_directory</code>, <code>wals_directory</code> and many more. Specify <code>all</code> as <code>SERVER_NAME</code> to show information about all the configured servers.
+</dd>
+<dt>status <em>SERVER_NAME</em></dt>
+<dd>Show information about the status of a server, including: number of available backups, <code>archive_command</code>, <code>archive_status</code> and many more. For example:
+</dd>
+</dl>
+<pre><code>Server quagmire:
+  Description: The Giggity database
+  Passive node: False
+  PostgreSQL version: 9.3.9
+  PostgreSQL Data directory: /srv/postgresql/9.3/data
+  PostgreSQL &#39;archive_command&#39; setting: rsync -a %p barman@backup:/var/lib/barman/quagmire/incoming
+  Last archived WAL: 0000000100003103000000AD
+  Current WAL segment: 0000000100003103000000AE
+  Retention policies: enforced (mode: auto, retention: REDUNDANCY 2, WAL retention: MAIN)
+  No. of available backups: 2
+  First available backup: 20150908T003001
+  Last available backup: 20150909T003001
+  Minimum redundancy requirements: satisfied (2/1)</code></pre>
+<dl>
+<dt>switch-wal <em>SERVER_NAME</em></dt>
+<dd><p>Execute pg_switch_wal() on the target server (from PostgreSQL 10), or pg_switch_xlog (for PostgreSQL 8.3 to 9.6).</p>
+<dl>
+<dt>--force</dt>
+<dd>Forces the switch by executing CHECKPOINT before pg_switch_xlog(). <em>IMPORTANT:</em> executing a CHECKPOINT might increase I/O load on a PostgreSQL server. Use this option with care.
+</dd>
+<dt>--archive</dt>
+<dd>Wait for one xlog file to be archived. If after a defined amount of time (default: 30 seconds) no xlog file is archived, Barman will terminate with failure exit code. Available also on standby servers.
+</dd>
+<dt>--archive-timeout <em>TIMEOUT</em></dt>
+<dd>Specifies the amount of time in seconds (default: 30 seconds) the archiver will wait for a new xlog file to be archived before timing out. Available also on standby servers.
+</dd>
+</dl>
+</dd>
+<dt>switch-xlog <em>SERVER_NAME</em></dt>
+<dd>Alias for switch-wal (kept for back-compatibility)
+</dd>
+<dt>sync-backup <em>SERVER_NAME</em> <em>BACKUP_ID</em></dt>
+<dd>Command used for the synchronisation of a passive node with its primary. Executes a copy of all the files of a <code>BACKUP_ID</code> that is present on <code>SERVER_NAME</code> node. This command is available only for passive nodes, and uses the <code>primary_ssh_command</code> option to establish a secure connection with the primary node.
+</dd>
+<dt>sync-info <em>SERVER_NAME</em> [<em>LAST_WAL</em> [<em>LAST_POSITION</em>]]</dt>
+<dd><p>Collect information regarding the current status of a Barman server, to be used for synchronisation purposes. Returns a JSON output representing <code>SERVER_NAME</code>, that contains: all the successfully finished backup, all the archived WAL files, the configuration, last WAL file been read from the <code>xlog.db</code> and the position in the file.</p>
+<dl>
+<dt>LAST_WAL</dt>
+<dd>tells sync-info to skip any WAL file previous to that (incremental synchronisation)
+</dd>
+<dt>LAST_POSITION</dt>
+<dd>hint for quickly positioning in the <code>xlog.db</code> file (incremental synchronisation)
+</dd>
+</dl>
+</dd>
+<dt>sync-wals <em>SERVER_NAME</em></dt>
+<dd>Command used for the synchronisation of a passive node with its primary. Executes a copy of all the archived WAL files that are present on <code>SERVER_NAME</code> node. This command is available only for passive nodes, and uses the <code>primary_ssh_command</code> option to establish a secure connection with the primary node.
+</dd>
+</dl>
+<h1 id="shortcuts">BACKUP ID SHORTCUTS</h1>
+<p>Rather than using the timestamp backup ID, you can use any of the following shortcuts/aliases to identity a backup for a given server:</p>
+<dl>
+<dt>first</dt>
+<dd>Oldest available backup for that server, in chronological order.
+</dd>
+<dt>last</dt>
+<dd>Latest available backup for that server, in chronological order.
+</dd>
+<dt>latest</dt>
+<dd>same ast <em>last</em>.
+</dd>
+<dt>oldest</dt>
+<dd>same ast <em>first</em>.
+</dd>
+<dt>last-failed</dt>
+<dd>Latest failed backup, in chronological order.
+</dd>
+</dl>
+<h1 id="exit-status">EXIT STATUS</h1>
+<dl>
+<dt>0</dt>
+<dd>Success
+</dd>
+<dt>Not zero</dt>
+<dd>Failure
+</dd>
+</dl>
+<h1 id="see-also">SEE ALSO</h1>
+<p><code>barman</code> (5).</p>
+<h1 id="bugs">BUGS</h1>
+<p>Barman has been extensively tested, and is currently being used in several production environments. However, we cannot exclude the presence of bugs.</p>
+<p>Any bug can be reported via the GitHub bug tracker. Along with the bug submission, users can provide developers with diagnostics information obtained through the <code>barman diagnose</code> command.</p>
+<h1 id="authors">AUTHORS</h1>
+<p>Barman maintainers (in alphabetical order):</p>
+<ul>
+<li>Abhijit Menon-Sen</li>
+<li>Didier Michel</li>
+<li>Michael Wallace</li>
+</ul>
+<p>Past contributors (in alphabetical order):</p>
+<ul>
+<li>Anna Bellandi (QA/testing)</li>
+<li>Britt Cole (documentation reviewer)</li>
+<li>Carlo Ascani (developer)</li>
+<li>Francesco Canovai (QA/testing)</li>
+<li>Gabriele Bartolini (architect)</li>
+<li>Gianni Ciolli (QA/testing)</li>
+<li>Giulio Calacoci (developer)</li>
+<li>Giuseppe Broccolo (developer)</li>
+<li>Jane Threefoot (developer)</li>
+<li>Jonathan Battiato (QA/testing)</li>
+<li>Leonardo Cecchi (developer)</li>
+<li>Marco Nenciarini (project leader)</li>
+<li>Niccolò Fei (QA/testing)</li>
+<li>Rubens Souza (QA/testing)</li>
+<li>Stefano Bianucci (developer)</li>
+</ul>
+<h1 id="resources">RESOURCES</h1>
+<ul>
+<li>Homepage: <a href="https://www.pgbarman.org/" class="uri">https://www.pgbarman.org/</a></li>
+<li>Documentation: <a href="https://docs.pgbarman.org/" class="uri">https://docs.pgbarman.org/</a></li>
+<li>Professional support: <a href="https://www.enterprisedb.com/" class="uri">https://www.enterprisedb.com/</a></li>
+</ul>
+<h1 id="copying">COPYING</h1>
+<p>Barman is the property of EnterpriseDB UK Limited and its code is distributed under GNU General Public License v3.</p>
+<p>© Copyright EnterpriseDB UK Limited 2011-2023</p>
+            </div>
+    </div>
+  </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  
+</body>
+</html>
