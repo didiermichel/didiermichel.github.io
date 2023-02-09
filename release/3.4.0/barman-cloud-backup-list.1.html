@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="EnterpriseDB https://www.enterprisedb.com" />
+  <meta name="date" content="2023-01-26" />
+  <title>BARMAN-CLOUD-BACKUP-LIST(1) Barman User manuals | Version 3.4.0</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="./html-templates/template.css" />
+</head>
+<body data-spy="scroll" data-target=".bs-docs-sidebar" >
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li>
+                <a href="http://www.pgbarman.org/" title="visit Barman homepage">Barman</a>
+              </li>
+              <li>
+                <a href="http://www.2ndQuadrant.com/" title="visit 2ndQuadrant homepage">2ndQuadrant</a>
+              </li>
+              <li>
+                <a href="index.html">manual</a>
+              </li>
+              <li>
+                <a href="barman.1.html" title="Section 1 of the man page for Barman">man1</a>
+              </li>
+              <li>
+                <a href="barman.5.html" title="Section 5 of the man page for Barman">man5</a>
+              </li>
+              </ul>
+              <ul class="nav">
+              <li>
+                <a href="barman-cloud-backup.1.html" title="Section 1 of the man page for barman-cloud-backup command">cloud backup</a>
+              </li>
+              <li>
+                <a href="barman-cloud-backup-list.1.html" title="Section 1 of the man page for barman-cloud-backup-list command">cloud backup list</a>
+              </li>
+              <li>
+                <a href="barman-cloud-backup-show.1.html" title="Section 1 of the man page for barman-cloud-backup-show command">cloud backup show</a>
+              </li>
+              <li>
+                <a href="barman-cloud-backup-delete.1.html" title="Section 1 of the man page for barman-cloud-backup-delete command">cloud backup delete</a>
+              </li>
+              <li>
+                <a href="barman-cloud-backup-keep.1.html" title="Section 1 of the man page for barman-cloud-backup-keep command">cloud backup keep</a>
+              </li>
+              <li>
+                <a href="barman-cloud-restore.1.html" title="Section 1 of the man page for barman-cloud-restore command">cloud restore</a>
+              </li>
+              <li>
+                <a href="barman-cloud-wal-archive.1.html" title="Section 1 of the man page for barman-cloud-wal-archive command">cloud wal archive</a>
+              </li>
+              <li>
+                <a href="barman-cloud-check-wal-archive.1.html" title="Section 1 of the man page for barman-cloud-check-wal-archive command">cloud check wal archive</a>
+              </li>
+              <li>
+                <a href="barman-cloud-wal-restore.1.html" title="Section 1 of the man page for barman-cloud-wal-restore command">cloud wal restore</a>
+              </li>
+              <li>
+                <a href="barman-wal-archive.1.html" title="Section 1 of the man page for barman-wal-archive command">wal archive</a>
+              </li>
+              <li>
+                <a href="barman-wal-restore.1.html" title="Section 1 of the man page for barman-wal-restore command">wal restore</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">BARMAN-CLOUD-BACKUP-LIST(1) Barman User manuals | Version 3.4.0</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">EnterpriseDB <a href="https://www.enterprisedb.com" class="uri">https://www.enterprisedb.com</a></p></li>
+                              <li><p class="navbar-text">January 26, 2023</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+        <ul id="toc" class="nav">
+          <li class="nav-header">Table of Contents</li>
+        </ul>
+        <ul>
+        <li><a href="#name">NAME</a></li>
+        <li><a href="#synopsis">SYNOPSIS</a></li>
+        <li><a href="#description">DESCRIPTION</a></li>
+        <li><a href="#usage">Usage</a></li>
+        <li><a href="#references">REFERENCES</a></li>
+        <li><a href="#dependencies">DEPENDENCIES</a></li>
+        <li><a href="#exit-status">EXIT STATUS</a></li>
+        <li><a href="#bugs">BUGS</a></li>
+        <li><a href="#resources">RESOURCES</a></li>
+        <li><a href="#copying">COPYING</a></li>
+        </ul>
+        </div>
+      </div>
+            <div id="CONTENT" class="span9">
+            <h1 id="name">NAME</h1>
+<p>barman-cloud-backup-list - List backups stored in the Cloud</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>barman-cloud-backup-list [<em>OPTIONS</em>] <em>SOURCE_URL</em> <em>SERVER_NAME</em></p>
+<h1 id="description">DESCRIPTION</h1>
+<p>This script can be used to list backups previously made with <code>barman-cloud-backup</code> command. Currently AWS S3, Azure Blob Storage and Google Cloud Storage are supported.</p>
+<p>This script and Barman are administration tools for disaster recovery of PostgreSQL servers written in Python and maintained by EnterpriseDB.</p>
+<h1 id="usage">Usage</h1>
+<pre><code>usage: barman-cloud-backup-list [-V] [--help] [-v | -q] [-t]
+                                [--cloud-provider {aws-s3,azure-blob-storage,google-cloud-storage}]
+                                [--endpoint-url ENDPOINT_URL] [-P PROFILE]
+                                [--read-timeout READ_TIMEOUT]
+                                [--credential {azure-cli,managed-identity}]
+                                [--format FORMAT]
+                                source_url server_name
+
+This script can be used to list backups made with barman-cloud-backup command.
+Currently AWS S3, Azure Blob Storage and Google Cloud Storage are supported.
+
+positional arguments:
+  source_url            URL of the cloud source, such as a bucket in AWS S3.
+                        For example: `s3://bucket/path/to/folder`.
+  server_name           the name of the server as configured in Barman.
+
+optional arguments:
+  -V, --version         show program&#39;s version number and exit
+  --help                show this help message and exit
+  -v, --verbose         increase output verbosity (e.g., -vv is more than -v)
+  -q, --quiet           decrease output verbosity (e.g., -qq is less than -q)
+  -t, --test            Test cloud connectivity and exit
+  --cloud-provider {aws-s3,azure-blob-storage,google-cloud-storage}
+                        The cloud provider to use as a storage backend
+  --format FORMAT       Output format (console or json). Default console.
+
+Extra options for the aws-s3 cloud provider:
+  --endpoint-url ENDPOINT_URL
+                        Override default S3 endpoint URL with the given one
+  -P PROFILE, --profile PROFILE
+                        profile name (e.g. INI section in AWS credentials
+                        file)
+  --read-timeout READ_TIMEOUT
+                        the time in seconds until a timeout is raised when
+                        waiting to read from a connection (defaults to 60
+                        seconds)
+
+Extra options for the azure-blob-storage cloud provider:
+  --credential {azure-cli,managed-identity}
+                        Optionally specify the type of credential to use when
+                        authenticating with Azure Blob Storage. If omitted
+                        then the credential will be obtained from the
+                        environment. If no credentials can be found in the
+                        environment then the default Azure authentication flow
+                        will be used</code></pre>
+<h1 id="references">REFERENCES</h1>
+<p>For Boto:</p>
+<ul>
+<li>https://boto3.amazonaws.com/v1/documentation/api/latest/guide/configuration.html</li>
+</ul>
+<p>For AWS:</p>
+<ul>
+<li>https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-set-up.html</li>
+<li>https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html.</li>
+</ul>
+<p>For Azure Blob Storage:</p>
+<ul>
+<li>https://docs.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-cli#set-environment-variables-for-authorization-parameters</li>
+<li>https://docs.microsoft.com/en-us/python/api/azure-storage-blob/?view=azure-python</li>
+</ul>
+<p>For Google Cloud Storage: * Credentials: https://cloud.google.com/docs/authentication/getting-started#setting_the_environment_variable</p>
+<p>Only authentication with <code>GOOGLE_APPLICATION_CREDENTIALS</code> env is supported at the moment.</p>
+<h1 id="dependencies">DEPENDENCIES</h1>
+<p>If using <code>--cloud-provider=aws-s3</code>:</p>
+<ul>
+<li>boto3</li>
+</ul>
+<p>If using <code>--cloud-provider=azure-blob-storage</code>:</p>
+<ul>
+<li>azure-storage-blob</li>
+<li>azure-identity (optional, if you wish to use DefaultAzureCredential)</li>
+</ul>
+<p>If using <code>--cloud-provider=google-cloud-storage</code> * google-cloud-storage</p>
+<h1 id="exit-status">EXIT STATUS</h1>
+<dl>
+<dt>0</dt>
+<dd>Success
+</dd>
+<dt>1</dt>
+<dd>The list command was not successful
+</dd>
+<dt>2</dt>
+<dd>The connection to the cloud provider failed
+</dd>
+<dt>3</dt>
+<dd>There was an error in the command input
+</dd>
+<dt>Other non-zero codes</dt>
+<dd>Failure
+</dd>
+</dl>
+<h1 id="bugs">BUGS</h1>
+<p>Barman has been extensively tested, and is currently being used in several production environments. However, we cannot exclude the presence of bugs.</p>
+<p>Any bug can be reported via the GitHub issue tracker.</p>
+<h1 id="resources">RESOURCES</h1>
+<ul>
+<li>Homepage: <a href="https://www.pgbarman.org/" class="uri">https://www.pgbarman.org/</a></li>
+<li>Documentation: <a href="https://docs.pgbarman.org/" class="uri">https://docs.pgbarman.org/</a></li>
+<li>Professional support: <a href="https://www.enterprisedb.com/" class="uri">https://www.enterprisedb.com/</a></li>
+</ul>
+<h1 id="copying">COPYING</h1>
+<p>Barman is the property of EnterpriseDB UK Limited and its code is distributed under GNU General Public License v3.</p>
+<p>© Copyright EnterpriseDB UK Limited 2011-2023</p>
+            </div>
+    </div>
+  </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  
+</body>
+</html>

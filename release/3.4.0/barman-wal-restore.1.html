@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="EnterpriseDB https://www.enterprisedb.com" />
+  <meta name="date" content="2023-01-26" />
+  <title>BARMAN-WAL-RESTORE(1) Barman User manuals | Version 3.4.0</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="./html-templates/template.css" />
+</head>
+<body data-spy="scroll" data-target=".bs-docs-sidebar" >
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li>
+                <a href="http://www.pgbarman.org/" title="visit Barman homepage">Barman</a>
+              </li>
+              <li>
+                <a href="http://www.2ndQuadrant.com/" title="visit 2ndQuadrant homepage">2ndQuadrant</a>
+              </li>
+              <li>
+                <a href="index.html">manual</a>
+              </li>
+              <li>
+                <a href="barman.1.html" title="Section 1 of the man page for Barman">man1</a>
+              </li>
+              <li>
+                <a href="barman.5.html" title="Section 5 of the man page for Barman">man5</a>
+              </li>
+              </ul>
+              <ul class="nav">
+              <li>
+                <a href="barman-cloud-backup.1.html" title="Section 1 of the man page for barman-cloud-backup command">cloud backup</a>
+              </li>
+              <li>
+                <a href="barman-cloud-backup-list.1.html" title="Section 1 of the man page for barman-cloud-backup-list command">cloud backup list</a>
+              </li>
+              <li>
+                <a href="barman-cloud-backup-show.1.html" title="Section 1 of the man page for barman-cloud-backup-show command">cloud backup show</a>
+              </li>
+              <li>
+                <a href="barman-cloud-backup-delete.1.html" title="Section 1 of the man page for barman-cloud-backup-delete command">cloud backup delete</a>
+              </li>
+              <li>
+                <a href="barman-cloud-backup-keep.1.html" title="Section 1 of the man page for barman-cloud-backup-keep command">cloud backup keep</a>
+              </li>
+              <li>
+                <a href="barman-cloud-restore.1.html" title="Section 1 of the man page for barman-cloud-restore command">cloud restore</a>
+              </li>
+              <li>
+                <a href="barman-cloud-wal-archive.1.html" title="Section 1 of the man page for barman-cloud-wal-archive command">cloud wal archive</a>
+              </li>
+              <li>
+                <a href="barman-cloud-check-wal-archive.1.html" title="Section 1 of the man page for barman-cloud-check-wal-archive command">cloud check wal archive</a>
+              </li>
+              <li>
+                <a href="barman-cloud-wal-restore.1.html" title="Section 1 of the man page for barman-cloud-wal-restore command">cloud wal restore</a>
+              </li>
+              <li>
+                <a href="barman-wal-archive.1.html" title="Section 1 of the man page for barman-wal-archive command">wal archive</a>
+              </li>
+              <li>
+                <a href="barman-wal-restore.1.html" title="Section 1 of the man page for barman-wal-restore command">wal restore</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">BARMAN-WAL-RESTORE(1) Barman User manuals | Version 3.4.0</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">EnterpriseDB <a href="https://www.enterprisedb.com" class="uri">https://www.enterprisedb.com</a></p></li>
+                              <li><p class="navbar-text">January 26, 2023</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+        <ul id="toc" class="nav">
+          <li class="nav-header">Table of Contents</li>
+        </ul>
+        <ul>
+        <li><a href="#name">NAME</a></li>
+        <li><a href="#synopsis">SYNOPSIS</a></li>
+        <li><a href="#description">DESCRIPTION</a></li>
+        <li><a href="#positional-arguments">POSITIONAL ARGUMENTS</a></li>
+        <li><a href="#options">OPTIONS</a></li>
+        <li><a href="#exit-status">EXIT STATUS</a></li>
+        <li><a href="#see-also">SEE ALSO</a></li>
+        <li><a href="#bugs">BUGS</a></li>
+        <li><a href="#resources">RESOURCES</a></li>
+        <li><a href="#copying">COPYING</a></li>
+        </ul>
+        </div>
+      </div>
+            <div id="CONTENT" class="span9">
+            <h1 id="name">NAME</h1>
+<p>barman-wal-restore - 'restore_command' based on Barman's get-wal</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>barman-wal-restore [<em>OPTIONS</em>] <em>BARMAN_HOST</em> <em>SERVER_NAME</em> <em>WAL_NAME</em> <em>WAL_DEST</em></p>
+<h1 id="description">DESCRIPTION</h1>
+<p>This script can be used as a 'restore_command' for PostgreSQL servers, retrieving WAL files using the 'get-wal' feature of Barman. An SSH connection will be opened to the Barman host. <code>barman-wal-restore</code> allows the integration of Barman in PostgreSQL clusters for better business continuity results.</p>
+<p>This script and Barman are administration tools for disaster recovery of PostgreSQL servers written in Python and maintained by EnterpriseDB.</p>
+<h1 id="positional-arguments">POSITIONAL ARGUMENTS</h1>
+<dl>
+<dt>BARMAN_HOST</dt>
+<dd>the host of the Barman server.
+</dd>
+<dt>SERVER_NAME</dt>
+<dd>the server name configured in Barman from which WALs are taken.
+</dd>
+<dt>WAL_NAME</dt>
+<dd>the value of the '%f' keyword (according to 'restore_command').
+</dd>
+<dt>WAL_DEST</dt>
+<dd>the value of the '%p' keyword (according to 'restore_command').
+</dd>
+</dl>
+<h1 id="options">OPTIONS</h1>
+<dl>
+<dt>-h, --help</dt>
+<dd>show a help message and exit
+</dd>
+<dt>-V, --version</dt>
+<dd>show program's version number and exit
+</dd>
+<dt>-U <em>USER</em>, --user <em>USER</em></dt>
+<dd>the user used for the ssh connection to the Barman server. Defaults to 'barman'.
+</dd>
+<dt>--port <em>PORT</em></dt>
+<dd>the port used for the ssh connection to the Barman server.
+</dd>
+<dt>-s <em>SECONDS</em>, --sleep <em>SECONDS</em></dt>
+<dd>sleep for SECONDS after a failure of get-wal request. Defaults to 0 (nowait).
+</dd>
+<dt>-p <em>JOBS</em>, --parallel <em>JOBS</em></dt>
+<dd>specifies the number of files to peek and transfer in parallel, defaults to 0 (disabled).
+</dd>
+<dt>--spool-dir <em>SPOOL_DIR</em></dt>
+<dd>Specifies spool directory for WAL files. Defaults to '/var/tmp/walrestore'
+</dd>
+<dt>-P, --partial</dt>
+<dd>retrieve also partial WAL files (.partial)
+</dd>
+<dt>-z, --gzip</dt>
+<dd>transfer the WAL files compressed with gzip
+</dd>
+<dt>-j, --bzip2</dt>
+<dd>transfer the WAL files compressed with bzip2
+</dd>
+<dt>-c <em>CONFIG</em>, --config <em>CONFIG</em></dt>
+<dd>configuration file on the Barman server
+</dd>
+<dt>-t, --test</dt>
+<dd>test both the connection and the configuration of the requested PostgreSQL server in Barman to make sure it is ready to receive WAL files. With this option, the 'WAL_NAME' and 'WAL_DEST' mandatory arguments are ignored.
+</dd>
+</dl>
+<h1 id="exit-status">EXIT STATUS</h1>
+<dl>
+<dt>0</dt>
+<dd>Success
+</dd>
+<dt>1</dt>
+<dd>The remote <code>get-wal</code> command failed, most likely because the requested WAL could not be found.
+</dd>
+<dt>2</dt>
+<dd>The SSH connection to the Barman server failed.
+</dd>
+<dt>Other non-zero codes</dt>
+<dd>Failure
+</dd>
+</dl>
+<h1 id="see-also">SEE ALSO</h1>
+<p><code>barman</code> (1), <code>barman</code> (5).</p>
+<h1 id="bugs">BUGS</h1>
+<p>Barman has been extensively tested, and is currently being used in several production environments. However, we cannot exclude the presence of bugs.</p>
+<p>Any bug can be reported via the GitHub issue tracker.</p>
+<h1 id="resources">RESOURCES</h1>
+<ul>
+<li>Homepage: <a href="https://www.pgbarman.org/" class="uri">https://www.pgbarman.org/</a></li>
+<li>Documentation: <a href="https://docs.pgbarman.org/" class="uri">https://docs.pgbarman.org/</a></li>
+<li>Professional support: <a href="https://www.enterprisedb.com/" class="uri">https://www.enterprisedb.com/</a></li>
+</ul>
+<h1 id="copying">COPYING</h1>
+<p>Barman is the property of EnterpriseDB UK Limited and its code is distributed under GNU General Public License v3.</p>
+<p>© Copyright EnterpriseDB UK Limited 2011-2023</p>
+            </div>
+    </div>
+  </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  
+</body>
+</html>

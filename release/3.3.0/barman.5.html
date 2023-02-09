@@ -1,0 +1,532 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="EnterpriseDB https://www.enterprisedb.com" />
+  <meta name="date" content="2022-12-14" />
+  <title>BARMAN(5) Barman User manuals | Version 3.3.0</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="./html-templates/template.css" />
+</head>
+<body data-spy="scroll" data-target=".bs-docs-sidebar" >
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li>
+                <a href="http://www.pgbarman.org/" title="visit Barman homepage">Barman</a>
+              </li>
+              <li>
+                <a href="http://www.2ndQuadrant.com/" title="visit 2ndQuadrant homepage">2ndQuadrant</a>
+              </li>
+              <li>
+                <a href="index.html">manual</a>
+              </li>
+              <li>
+                <a href="barman.1.html" title="Section 1 of the man page for Barman">man1</a>
+              </li>
+              <li>
+                <a href="barman.5.html" title="Section 5 of the man page for Barman">man5</a>
+              </li>
+              </ul>
+              <ul class="nav">
+              <li>
+                <a href="barman-cloud-backup.1.html" title="Section 1 of the man page for barman-cloud-backup command">cloud backup</a>
+              </li>
+              <li>
+                <a href="barman-cloud-backup-list.1.html" title="Section 1 of the man page for barman-cloud-backup-list command">cloud backup list</a>
+              </li>
+              <li>
+                <a href="barman-cloud-backup-delete.1.html" title="Section 1 of the man page for barman-cloud-backup-delete command">cloud backup delete</a>
+              </li>
+              <li>
+                <a href="barman-cloud-backup-keep.1.html" title="Section 1 of the man page for barman-cloud-backup-keep command">cloud backup keep</a>
+              </li>
+              <li>
+                <a href="barman-cloud-restore.1.html" title="Section 1 of the man page for barman-cloud-restore command">cloud restore</a>
+              </li>
+              <li>
+                <a href="barman-cloud-wal-archive.1.html" title="Section 1 of the man page for barman-cloud-wal-archive command">cloud wal archive</a>
+              </li>
+              <li>
+                <a href="barman-cloud-check-wal-archive.1.html" title="Section 1 of the man page for barman-cloud-check-wal-archive command">cloud check wal archive</a>
+              </li>
+              <li>
+                <a href="barman-cloud-wal-restore.1.html" title="Section 1 of the man page for barman-cloud-wal-restore command">cloud wal restore</a>
+              </li>
+              <li>
+                <a href="barman-wal-archive.1.html" title="Section 1 of the man page for barman-wal-archive command">wal archive</a>
+              </li>
+              <li>
+                <a href="barman-wal-restore.1.html" title="Section 1 of the man page for barman-wal-restore command">wal restore</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">BARMAN(5) Barman User manuals | Version 3.3.0</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">EnterpriseDB <a href="https://www.enterprisedb.com" class="uri">https://www.enterprisedb.com</a></p></li>
+                              <li><p class="navbar-text">December 14, 2022</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+        <ul id="toc" class="nav">
+          <li class="nav-header">Table of Contents</li>
+        </ul>
+        <ul>
+        <li><a href="#name">NAME</a></li>
+        <li><a href="#description">DESCRIPTION</a></li>
+        <li><a href="#configuration-file-locations">CONFIGURATION FILE LOCATIONS</a></li>
+        <li><a href="#configuration-file-syntax">CONFIGURATION FILE SYNTAX</a></li>
+        <li><a href="#configuration-file-directory">CONFIGURATION FILE DIRECTORY</a></li>
+        <li><a href="#options">OPTIONS</a></li>
+        <li><a href="#hook-scripts">HOOK SCRIPTS</a></li>
+        <li><a href="#example">EXAMPLE</a></li>
+        <li><a href="#see-also">SEE ALSO</a></li>
+        <li><a href="#authors">AUTHORS</a></li>
+        <li><a href="#resources">RESOURCES</a></li>
+        <li><a href="#copying">COPYING</a></li>
+        </ul>
+        </div>
+      </div>
+            <div id="CONTENT" class="span9">
+            <h1 id="name">NAME</h1>
+<p>barman - Backup and Recovery Manager for PostgreSQL</p>
+<h1 id="description">DESCRIPTION</h1>
+<p>Barman is an administration tool for disaster recovery of PostgreSQL servers written in Python and maintained by EnterpriseDB. Barman can perform remote backups of multiple servers in business critical environments and helps DBAs during the recovery phase.</p>
+<h1 id="configuration-file-locations">CONFIGURATION FILE LOCATIONS</h1>
+<p>The system-level Barman configuration file is located at</p>
+<pre><code>/etc/barman.conf</code></pre>
+<p>or</p>
+<pre><code>/etc/barman/barman.conf</code></pre>
+<p>and is overridden on a per-user level by</p>
+<pre><code>$HOME/.barman.conf</code></pre>
+<h1 id="configuration-file-syntax">CONFIGURATION FILE SYNTAX</h1>
+<p>The Barman configuration file is a plain <code>INI</code> file. There is a general section called <code>[barman]</code> and a section <code>[servername]</code> for each server you want to backup. Rows starting with <code>;</code> are comments.</p>
+<h1 id="configuration-file-directory">CONFIGURATION FILE DIRECTORY</h1>
+<p>Barman supports the inclusion of multiple configuration files, through the <code>configuration_files_directory</code> option. Included files must contain only server specifications, not global configurations. If the value of <code>configuration_files_directory</code> is a directory, Barman reads all files with <code>.conf</code> extension that exist in that folder. For example, if you set it to <code>/etc/barman.d</code>, you can specify your PostgreSQL servers placing each section in a separate <code>.conf</code> file inside the <code>/etc/barman.d</code> folder.</p>
+<h1 id="options">OPTIONS</h1>
+<dl>
+<dt>active</dt>
+<dd>When set to <code>true</code> (default), the server is in full operational state. When set to <code>false</code>, the server can be used for diagnostics, but any operational command such as backup execution or WAL archiving is temporarily disabled. When adding a new server to Barman, we suggest setting active=false at first, making sure that barman check shows no problems, and only then activating the server. This will avoid spamming the Barman logs with errors during the initial setup.
+</dd>
+<dt>archiver</dt>
+<dd>This option allows you to activate log file shipping through PostgreSQL's <code>archive_command</code> for a server. If set to <code>true</code> (default), Barman expects that continuous archiving for a server is in place and will activate checks as well as management (including compression) of WAL files that Postgres deposits in the <em>incoming</em> directory. Setting it to <code>false</code>, will disable standard continuous archiving for a server. Global/Server.
+</dd>
+<dt>archiver_batch_size</dt>
+<dd>This option allows you to activate batch processing of WAL files for the <code>archiver</code> process, by setting it to a value &gt; 0. Otherwise, the traditional unlimited processing of the WAL queue is enabled. When batch processing is activated, the <code>archive-wal</code> process would limit itself to maximum <code>archiver_batch_size</code> WAL segments per single run. Integer. Global/Server.
+</dd>
+<dt>backup_compression</dt>
+<dd>The compression to be used during the backup process. Only supported when <code>backup_method = postgres</code>. Can either be unset or <code>gzip</code>,<code>lz4</code> or <code>zstd</code>. If unset then no compression will be used during the backup. Use of this option requires that the CLI application for the specified compression algorithm is available on the Barman server (at backup time) and the PostgreSQL server (at recovery time). Note that the <code>lz4</code> and <code>zstd</code> algorithms require PostgreSQL 15 (beta) or later. Global/Server.
+</dd>
+<dt>backup_compression_format</dt>
+<dd>The format pg_basebackup should use when writing compressed backups to disk. Can be set to either <code>plain</code> or <code>tar</code>. If unset then a default of <code>tar</code> is assumed. The value <code>plain</code> can only be used if the server is running PostgreSQL 15 or later <em>and</em> if <code>backup_compression_location</code> is <code>server</code>. Only supported when <code>backup_method = postgres</code>. Global/Server.
+</dd>
+<dt>backup_compression_level</dt>
+<dd>An integer value representing the compression level to use when compressing backups. Allowed values depend on the compression algorithm specified by <code>backup_compression</code>. Only supported when <code>backup_method = postgres</code>. Global/Server.
+</dd>
+<dt>backup_compression_location</dt>
+<dd>The location (either <code>client</code> or <code>server</code>) where compression should be performed during the backup. The value <code>server</code> is only allowed if the server is running PostgreSQL 15 or later. Global/Server.
+</dd>
+<dt>backup_compression_workers</dt>
+<dd>The number of compression threads to be used during the backup process. Only supported when <code>backup_compression = zstd</code> is set. Default value is 0. In this case default compression behavior will be used.
+</dd>
+<dt>backup_directory</dt>
+<dd>Directory where backup data for a server will be placed. Server.
+</dd>
+<dt>backup_method</dt>
+<dd>Configure the method barman used for backup execution. If set to <code>rsync</code> (default), barman will execute backup using the <code>rsync</code> command over SSH (requires <code>ssh_command</code>). If set to <code>postgres</code> barman will use the <code>pg_basebackup</code> command to execute the backup. If set to <code>local-rsync</code>, barman will assume to be running on the same server as the PostgreSQL instance and with the same user, then execute <code>rsync</code> for the file system copy. Global/Server.
+</dd>
+<dt>backup_options</dt>
+<dd><p>This option allows you to control the way Barman interacts with PostgreSQL for backups. It is a comma-separated list of values that accepts the following options:</p>
+<ul>
+<li><code>concurrent_backup</code> (default): <code>barman backup</code> executes backup operations using concurrent backup which is the recommended backup approach for PostgreSQL versions &gt;= 9.6 and uses the PostgreSQL API. <code>concurrent_backup</code> can also be used to perform a backup from a standby server.</li>
+<li><code>exclusive_backup</code> (PostgreSQL versions older than 15 only): <code>barman backup</code> executes backup operations using the deprecated exclusive backup approach (technically through <code>pg_start_backup</code> and <code>pg_stop_backup</code>)</li>
+<li><code>external_configuration</code>: if present, any warning regarding external configuration files is suppressed during the execution of a backup.</li>
+</ul>
+<p>Note that <code>exclusive_backup</code> and <code>concurrent_backup</code> are mutually exclusive. Global/Server.</p>
+</dd>
+<dt>bandwidth_limit</dt>
+<dd>This option allows you to specify a maximum transfer rate in kilobytes per second. A value of zero specifies no limit (default). Global/Server.
+</dd>
+<dt>barman_home</dt>
+<dd>Main data directory for Barman. Global.
+</dd>
+<dt>barman_lock_directory</dt>
+<dd>Directory for locks. Default: <code>%(barman_home)s</code>. Global.
+</dd>
+<dt>basebackup_retry_sleep</dt>
+<dd>Number of seconds of wait after a failed copy, before retrying Used during both backup and recovery operations. Positive integer, default 30. Global/Server.
+</dd>
+<dt>basebackup_retry_times</dt>
+<dd>Number of retries of base backup copy, after an error. Used during both backup and recovery operations. Positive integer, default 0. Global/Server.
+</dd>
+<dt>basebackups_directory</dt>
+<dd>Directory where base backups will be placed. Server.
+</dd>
+<dt>check_timeout</dt>
+<dd>Maximum execution time, in seconds per server, for a barman check command. Set to 0 to disable the timeout. Positive integer, default 30. Global/Server.
+</dd>
+<dt>compression</dt>
+<dd>Standard compression algorithm applied to WAL files. Possible values are: <code>gzip</code> (requires <code>gzip</code> to be installed on the system), <code>bzip2</code> (requires <code>bzip2</code>), <code>pigz</code> (requires <code>pigz</code>), <code>pygzip</code> (Python's internal gzip compressor) and <code>pybzip2</code> (Python's internal bzip2 compressor). Global/Server.
+</dd>
+<dt>conninfo</dt>
+<dd>Connection string used by Barman to connect to the Postgres server. This is a libpq connection string, consult the <a href="https://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-CONNSTRING">PostgreSQL manual</a> for more information. Commonly used keys are: host, hostaddr, port, dbname, user, password. Server.
+</dd>
+</dl>
+<dl>
+<dt>create_slot</dt>
+<dd>When set to <code>auto</code> and <code>slot_name</code> is defined, Barman automatically attempts to create the replication slot if not present. When set to <code>manual</code> (default), the replication slot needs to be manually created. Global/Server.
+</dd>
+<dt>custom_compression_filter</dt>
+<dd>Customised compression algorithm applied to WAL files. Global/Server.
+</dd>
+<dt>custom_compression_magic</dt>
+<dd>Customised compression magic which is checked in the beginning of a WAL file to select the custom algorithm. If you are using a custom compression filter then setting this will prevent barman from applying the custom compression to WALs which have been pre-compressed with that compression. If you do not configure this then custom compression will still be applied but any pre-compressed WAL files will be compressed again during WAL archive. Global/Server.
+</dd>
+<dt>custom_decompression_filter</dt>
+<dd>Customised decompression algorithm applied to compressed WAL files; this must match the compression algorithm. Global/Server.
+</dd>
+<dt>description</dt>
+<dd>A human readable description of a server. Server.
+</dd>
+<dt>errors_directory</dt>
+<dd>Directory that contains WAL files that contain an error; usually this is related to a conflict with an existing WAL file (e.g. a WAL file that has been archived after a streamed one).
+</dd>
+<dt>forward_config_path</dt>
+<dd>Parameter which determines whether a passive node should forward its configuration file path to its primary node during cron or sync-info commands. Set to true if you are invoking barman with the <code>-c/--config</code> option and your configuration is in the same place on both the passive and primary barman servers. Defaults to false.
+</dd>
+<dt>immediate_checkpoint</dt>
+<dd>This option allows you to control the way PostgreSQL handles checkpoint at the start of the backup. If set to <code>false</code> (default), the I/O workload for the checkpoint will be limited, according to the <code>checkpoint_completion_target</code> setting on the PostgreSQL server. If set to <code>true</code>, an immediate checkpoint will be requested, meaning that PostgreSQL will complete the checkpoint as soon as possible. Global/Server.
+</dd>
+<dt>incoming_wals_directory</dt>
+<dd>Directory where incoming WAL files are archived into. Requires <code>archiver</code> to be enabled. Server.
+</dd>
+<dt>last_backup_maximum_age</dt>
+<dd>This option identifies a time frame that must contain the latest backup. If the latest backup is older than the time frame, barman check command will report an error to the user. If empty (default), latest backup is always considered valid. Syntax for this option is: &quot;i (DAYS | WEEKS | MONTHS)&quot; where i is an integer greater than zero, representing the number of days | weeks | months of the time frame. Global/Server.
+</dd>
+<dt>last_backup_minimum_size</dt>
+<dd>This option identifies lower limit to the acceptable size of the latest successful backup. If the latest backup is smaller than the specified size, barman check command will report an error to the user. If empty (default), latest backup is always considered valid. Syntax for this option is: &quot;i (k|Ki|M|Mi|G|Gi|T|Ti)&quot; where i is an integer greater than zero, with an optional SI or IEC suffix. k=kilo=1000, Ki=Kibi=1024 and so forth. Note that the suffix is case-sensitive. Global/Server.
+</dd>
+<dt>last_wal_maximum_age</dt>
+<dd>This option identifies a time frame that must contain the latest WAL file archived. If the latest WAL file is older than the time frame, barman check command will report an error to the user. If empty (default), the age of the WAL files is not checked. Syntax is the same as last_backup_maximum_age (above). Global/Server. log_file
+</dd>
+<dd>Location of Barman's log file. Global.
+</dd>
+<dt>log_level</dt>
+<dd>Level of logging (DEBUG, INFO, WARNING, ERROR, CRITICAL). Global.
+</dd>
+<dt>max_incoming_wals_queue</dt>
+<dd>Maximum number of WAL files in the incoming queue (in both streaming and archiving pools) that are allowed before barman check returns an error (that does not block backups). Global/Server. Default: None (disabled).
+</dd>
+<dt>minimum_redundancy</dt>
+<dd>Minimum number of backups to be retained. Default 0. Global/Server.
+</dd>
+<dt>network_compression</dt>
+<dd>This option allows you to enable data compression for network transfers. If set to <code>false</code> (default), no compression is used. If set to <code>true</code>, compression is enabled, reducing network usage. Global/Server.
+</dd>
+<dt>parallel_jobs</dt>
+<dd>This option controls how many parallel workers will copy files during a backup or recovery command. Default 1. Global/Server. For backup purposes, it works only when <code>backup_method</code> is <code>rsync</code>.
+</dd>
+<dt>path_prefix</dt>
+<dd>One or more absolute paths, separated by colon, where Barman looks for executable files. The paths specified in <code>path_prefix</code> are tried before the ones specified in <code>PATH</code> environment variable. Global/server.
+</dd>
+<dt>post_archive_retry_script</dt>
+<dd>Hook script launched after a WAL file is archived by maintenance. Being this a <em>retry</em> hook script, Barman will retry the execution of the script until this either returns a SUCCESS (0), an ABORT_CONTINUE (62) or an ABORT_STOP (63) code. In a post archive scenario, ABORT_STOP has currently the same effects as ABORT_CONTINUE. Global/Server.
+</dd>
+<dt>post_archive_script</dt>
+<dd>Hook script launched after a WAL file is archived by maintenance, after 'post_archive_retry_script'. Global/Server.
+</dd>
+<dt>post_backup_retry_script</dt>
+<dd>Hook script launched after a base backup. Being this a <em>retry</em> hook script, Barman will retry the execution of the script until this either returns a SUCCESS (0), an ABORT_CONTINUE (62) or an ABORT_STOP (63) code. In a post backup scenario, ABORT_STOP has currently the same effects as ABORT_CONTINUE. Global/Server.
+</dd>
+<dt>post_backup_script</dt>
+<dd>Hook script launched after a base backup, after 'post_backup_retry_script'. Global/Server.
+</dd>
+<dt>post_delete_retry_script</dt>
+<dd>Hook script launched after the deletion of a backup. Being this a <em>retry</em> hook script, Barman will retry the execution of the script until this either returns a SUCCESS (0), an ABORT_CONTINUE (62) or an ABORT_STOP (63) code. In a post delete scenario, ABORT_STOP has currently the same effects as ABORT_CONTINUE. Global/Server.
+</dd>
+<dt>post_delete_script</dt>
+<dd>Hook script launched after the deletion of a backup, after 'post_delete_retry_script'. Global/Server.
+</dd>
+<dt>post_recovery_retry_script</dt>
+<dd>Hook script launched after a recovery. Being this a <em>retry</em> hook script, Barman will retry the execution of the script until this either returns a SUCCESS (0), an ABORT_CONTINUE (62) or an ABORT_STOP (63) code. In a post recovery scenario, ABORT_STOP has currently the same effects as ABORT_CONTINUE. Global/Server.
+</dd>
+<dt>post_recovery_script</dt>
+<dd>Hook script launched after a recovery, after 'post_recovery_retry_script'. Global/Server.
+</dd>
+<dt>post_wal_delete_retry_script</dt>
+<dd>Hook script launched after the deletion of a WAL file. Being this a <em>retry</em> hook script, Barman will retry the execution of the script until this either returns a SUCCESS (0), an ABORT_CONTINUE (62) or an ABORT_STOP (63) code. In a post delete scenario, ABORT_STOP has currently the same effects as ABORT_CONTINUE. Global/Server.
+</dd>
+<dt>post_wal_delete_script</dt>
+<dd>Hook script launched after the deletion of a WAL file, after 'post_wal_delete_retry_script'. Global/Server.
+</dd>
+<dt>pre_archive_retry_script</dt>
+<dd>Hook script launched before a WAL file is archived by maintenance, after 'pre_archive_script'. Being this a <em>retry</em> hook script, Barman will retry the execution of the script until this either returns a SUCCESS (0), an ABORT_CONTINUE (62) or an ABORT_STOP (63) code. Returning ABORT_STOP will propagate the failure at a higher level and interrupt the WAL archiving operation. Global/Server.
+</dd>
+<dt>pre_archive_script</dt>
+<dd>Hook script launched before a WAL file is archived by maintenance. Global/Server.
+</dd>
+<dt>pre_backup_retry_script</dt>
+<dd>Hook script launched before a base backup, after 'pre_backup_script'. Being this a <em>retry</em> hook script, Barman will retry the execution of the script until this either returns a SUCCESS (0), an ABORT_CONTINUE (62) or an ABORT_STOP (63) code. Returning ABORT_STOP will propagate the failure at a higher level and interrupt the backup operation. Global/Server.
+</dd>
+<dt>pre_backup_script</dt>
+<dd>Hook script launched before a base backup. Global/Server.
+</dd>
+<dt>pre_delete_retry_script</dt>
+<dd>Hook script launched before the deletion of a backup, after 'pre_delete_script'. Being this a <em>retry</em> hook script, Barman will retry the execution of the script until this either returns a SUCCESS (0), an ABORT_CONTINUE (62) or an ABORT_STOP (63) code. Returning ABORT_STOP will propagate the failure at a higher level and interrupt the backup deletion. Global/Server.
+</dd>
+<dt>pre_delete_script</dt>
+<dd>Hook script launched before the deletion of a backup. Global/Server.
+</dd>
+<dt>pre_recovery_retry_script</dt>
+<dd>Hook script launched before a recovery, after 'pre_recovery_script'. Being this a <em>retry</em> hook script, Barman will retry the execution of the script until this either returns a SUCCESS (0), an ABORT_CONTINUE (62) or an ABORT_STOP (63) code. Returning ABORT_STOP will propagate the failure at a higher level and interrupt the recover operation. Global/Server.
+</dd>
+<dt>pre_recovery_script</dt>
+<dd>Hook script launched before a recovery. Global/Server.
+</dd>
+<dt>pre_wal_delete_retry_script</dt>
+<dd>Hook script launched before the deletion of a WAL file, after 'pre_wal_delete_script'. Being this a <em>retry</em> hook script, Barman will retry the execution of the script until this either returns a SUCCESS (0), an ABORT_CONTINUE (62) or an ABORT_STOP (63) code. Returning ABORT_STOP will propagate the failure at a higher level and interrupt the WAL file deletion. Global/Server.
+</dd>
+<dt>pre_wal_delete_script</dt>
+<dd>Hook script launched before the deletion of a WAL file. Global/Server.
+</dd>
+<dt>primary_conninfo</dt>
+<dd><p>The connection string used by Barman to connect to the primary Postgres server during backup of a standby Postgres server. Barman will use this connection to carry out any required WAL switches on the primary during the backup of the standby. This allows backups to complete even when <code>archive_mode = always</code> is set on the standby and write traffic to the primary is not sufficient to trigger a natural WAL switch.</p>
+<p>If primary_conninfo is set then it <em>must</em> be pointing to a primary Postgres instance and conninfo <em>must</em> be pointing to a standby Postgres instance. Furthermore both instances must share the same systemid. If these conditions are not met then <code>barman check</code> will fail.</p>
+<p>The primary_conninfo value must be a libpq connection string; consult the <a href="https://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-CONNSTRING">PostgreSQL manual</a> for more information. Commonly used keys are: host, hostaddr, port, dbname, user, password. Server.</p>
+</dd>
+</dl>
+<dl>
+<dt>primary_ssh_command</dt>
+<dd>Parameter that identifies a Barman server as <code>passive</code>. In a passive node, the source of a backup server is a Barman installation rather than a PostgreSQL server. If <code>primary_ssh_command</code> is specified, Barman uses it to establish a connection with the primary server. Empty by default, it can also be set globally.
+</dd>
+<dt>recovery_options</dt>
+<dd>Options for recovery operations. Currently only supports <code>get-wal</code>. <code>get-wal</code> activates generation of a basic <code>restore_command</code> in the resulting recovery configuration that uses the <code>barman get-wal</code> command to fetch WAL files directly from Barman's archive of WALs. Comma separated list of values, default empty. Global/Server.
+</dd>
+<dt>recovery_staging_path</dt>
+<dd>A path to a location on the recovery host (either the barman server or a remote host if --remote-ssh-command is also used) where files for a compressed backup will be staged before being uncompressed to the destination directory. Backups will be staged in their own directory within the staging path according to the following naming convention: &quot;barman-staging-SERVER_NAME-BACKUP_ID&quot;. The staging directory within the staging path will be removed at the end of the recovery process. This option is <em>required</em> when recovering from compressed backups and has no effect otherwise. Global/Server.
+</dd>
+<dt>retention_policy</dt>
+<dd>Policy for retention of periodic backups and archive logs. If left empty, retention policies are not enforced. For redundancy based retention policy use &quot;REDUNDANCY i&quot; (where i is an integer &gt; 0 and defines the number of backups to retain). For recovery window retention policy use &quot;RECOVERY WINDOW OF i DAYS&quot; or &quot;RECOVERY WINDOW OF i WEEKS&quot; or &quot;RECOVERY WINDOW OF i MONTHS&quot; where i is a positive integer representing, specifically, the number of days, weeks or months to retain your backups. For more detailed information, refer to the official documentation. Default value is empty. Global/Server.
+</dd>
+<dt>retention_policy_mode</dt>
+<dd>Currently only &quot;auto&quot; is implemented. Global/Server.
+</dd>
+<dt>reuse_backup</dt>
+<dd><p>This option controls incremental backup support. Global/Server. Possible values are:</p>
+<ul>
+<li><code>off</code>: disabled (default);</li>
+<li><code>copy</code>: reuse the last available backup for a server and create a copy of the unchanged files (reduce backup time);</li>
+<li><code>link</code>: reuse the last available backup for a server and create a hard link of the unchanged files (reduce backup time and space). Requires operating system and file system support for hard links.</li>
+</ul>
+</dd>
+<dt>slot_name</dt>
+<dd>Physical replication slot to be used by the <code>receive-wal</code> command when <code>streaming_archiver</code> is set to <code>on</code>. Default: None (disabled). Global/Server.
+</dd>
+<dt>ssh_command</dt>
+<dd>Command used by Barman to login to the Postgres server via ssh. Server.
+</dd>
+<dt>streaming_archiver</dt>
+<dd>This option allows you to use the PostgreSQL's streaming protocol to receive transaction logs from a server. If set to <code>on</code>, Barman expects to find <code>pg_receivewal</code> (known as <code>pg_receivexlog</code> prior to PostgreSQL 10) in the PATH (see <code>path_prefix</code> option) and that streaming connection for the server is working. This activates connection checks as well as management (including compression) of WAL files. If set to <code>off</code> (default) barman will rely only on continuous archiving for a server WAL archive operations, eventually terminating any running <code>pg_receivexlog</code> for the server. Global/Server.
+</dd>
+<dt>streaming_archiver_batch_size</dt>
+<dd>This option allows you to activate batch processing of WAL files for the <code>streaming_archiver</code> process, by setting it to a value &gt; 0. Otherwise, the traditional unlimited processing of the WAL queue is enabled. When batch processing is activated, the <code>archive-wal</code> process would limit itself to maximum <code>streaming_archiver_batch_size</code> WAL segments per single run. Integer. Global/Server.
+</dd>
+<dt>streaming_archiver_name</dt>
+<dd>Identifier to be used as <code>application_name</code> by the <code>receive-wal</code> command. Only available with <code>pg_receivewal</code> (or <code>pg_receivexlog</code> &gt;= 9.3). By default it is set to <code>barman_receive_wal</code>. Global/Server.
+</dd>
+<dt>streaming_backup_name</dt>
+<dd>Identifier to be used as <code>application_name</code> by the <code>pg_basebackup</code> command. By default it is set to <code>barman_streaming_backup</code>. Global/Server.
+</dd>
+<dt>streaming_conninfo</dt>
+<dd>Connection string used by Barman to connect to the Postgres server via streaming replication protocol. By default it is set to <code>conninfo</code>. Server.
+</dd>
+<dt>streaming_wals_directory</dt>
+<dd>Directory where WAL files are streamed from the PostgreSQL server to Barman. Requires <code>streaming_archiver</code> to be enabled. Server.
+</dd>
+<dt>tablespace_bandwidth_limit</dt>
+<dd>This option allows you to specify a maximum transfer rate in kilobytes per second, by specifying a comma separated list of tablespaces (pairs TBNAME:BWLIMIT). A value of zero specifies no limit (default). Global/Server.
+</dd>
+<dt>wal_retention_policy</dt>
+<dd>Policy for retention of archive logs (WAL files). Currently only &quot;MAIN&quot; is available. Global/Server.
+</dd>
+<dt>wals_directory</dt>
+<dd>Directory which contains WAL files. Server.
+</dd>
+</dl>
+<h1 id="hook-scripts">HOOK SCRIPTS</h1>
+<p>The script definition is passed to a shell and can return any exit code.</p>
+<p>The shell environment will contain the following variables:</p>
+<dl>
+<dt><code>BARMAN_CONFIGURATION</code></dt>
+<dd>configuration file used by barman
+</dd>
+<dt><code>BARMAN_ERROR</code></dt>
+<dd>error message, if any (only for the 'post' phase)
+</dd>
+<dt><code>BARMAN_PHASE</code></dt>
+<dd>'pre' or 'post'
+</dd>
+<dt><code>BARMAN_RETRY</code></dt>
+<dd><code>1</code> if it is a <em>retry script</em> (from 1.5.0), <code>0</code> if not
+</dd>
+<dt><code>BARMAN_SERVER</code></dt>
+<dd>name of the server
+</dd>
+</dl>
+<p>Backup scripts specific variables:</p>
+<dl>
+<dt><code>BARMAN_BACKUP_DIR</code></dt>
+<dd>backup destination directory
+</dd>
+<dt><code>BARMAN_BACKUP_ID</code></dt>
+<dd>ID of the backup
+</dd>
+<dt><code>BARMAN_PREVIOUS_ID</code></dt>
+<dd>ID of the previous backup (if present)
+</dd>
+<dt><code>BARMAN_NEXT_ID</code></dt>
+<dd>ID of the next backup (if present)
+</dd>
+<dt><code>BARMAN_STATUS</code></dt>
+<dd>status of the backup
+</dd>
+<dt><code>BARMAN_VERSION</code></dt>
+<dd>version of Barman
+</dd>
+</dl>
+<p>Archive scripts specific variables:</p>
+<dl>
+<dt><code>BARMAN_SEGMENT</code></dt>
+<dd>name of the WAL file
+</dd>
+<dt><code>BARMAN_FILE</code></dt>
+<dd>full path of the WAL file
+</dd>
+<dt><code>BARMAN_SIZE</code></dt>
+<dd>size of the WAL file
+</dd>
+<dt><code>BARMAN_TIMESTAMP</code></dt>
+<dd>WAL file timestamp
+</dd>
+<dt><code>BARMAN_COMPRESSION</code></dt>
+<dd>type of compression used for the WAL file
+</dd>
+</dl>
+<p>Recovery scripts specific variables:</p>
+<dl>
+<dt><code>BARMAN_DESTINATION_DIRECTORY</code></dt>
+<dd>the directory where the new instance is recovered
+</dd>
+<dt><code>BARMAN_TABLESPACES</code></dt>
+<dd>tablespace relocation map (JSON, if present)
+</dd>
+<dt><code>BARMAN_REMOTE_COMMAND</code></dt>
+<dd>secure shell command used by the recovery (if present)
+</dd>
+<dt><code>BARMAN_RECOVER_OPTIONS</code></dt>
+<dd>recovery additional options (JSON, if present)
+</dd>
+</dl>
+<p>Only in case of retry hook scripts, the exit code of the script is checked by Barman. Output of hook scripts is simply written in the log file.</p>
+<h1 id="example">EXAMPLE</h1>
+<p>Here is an example of configuration file:</p>
+<pre><code>[barman]
+; Main directory
+barman_home = /var/lib/barman
+
+; System user
+barman_user = barman
+
+; Log location
+log_file = /var/log/barman/barman.log
+
+; Default compression level
+;compression = gzip
+
+; Incremental backup
+reuse_backup = link
+
+; &#39;main&#39; PostgreSQL Server configuration
+[main]
+; Human readable description
+description =  &quot;Main PostgreSQL Database&quot;
+
+; SSH options
+ssh_command = ssh postgres@pg
+
+; PostgreSQL connection string
+conninfo = host=pg user=postgres
+
+; PostgreSQL streaming connection string
+streaming_conninfo = host=pg user=postgres
+
+; Minimum number of required backups (redundancy)
+minimum_redundancy = 1
+
+; Retention policy (based on redundancy)
+retention_policy = REDUNDANCY 2</code></pre>
+<h1 id="see-also">SEE ALSO</h1>
+<p><code>barman</code> (1).</p>
+<h1 id="authors">AUTHORS</h1>
+<p>Barman maintainers (in alphabetical order):</p>
+<ul>
+<li>Abhijit Menon-Sen</li>
+<li>Jane Threefoot</li>
+<li>Michael Wallace</li>
+</ul>
+<p>Past contributors (in alphabetical order):</p>
+<ul>
+<li>Anna Bellandi (QA/testing)</li>
+<li>Britt Cole (documentation reviewer)</li>
+<li>Carlo Ascani (developer)</li>
+<li>Francesco Canovai (QA/testing)</li>
+<li>Gabriele Bartolini (architect)</li>
+<li>Gianni Ciolli (QA/testing)</li>
+<li>Giulio Calacoci (developer)</li>
+<li>Giuseppe Broccolo (developer)</li>
+<li>Jonathan Battiato (QA/testing)</li>
+<li>Leonardo Cecchi (developer)</li>
+<li>Marco Nenciarini (project leader)</li>
+<li>Niccolò Fei (QA/testing)</li>
+<li>Rubens Souza (QA/testing)</li>
+<li>Stefano Bianucci (developer)</li>
+</ul>
+<h1 id="resources">RESOURCES</h1>
+<ul>
+<li>Homepage: <a href="https://www.pgbarman.org/" class="uri">https://www.pgbarman.org/</a></li>
+<li>Documentation: <a href="https://docs.pgbarman.org/" class="uri">https://docs.pgbarman.org/</a></li>
+<li>Professional support: <a href="https://www.enterprisedb.com/" class="uri">https://www.enterprisedb.com/</a></li>
+</ul>
+<h1 id="copying">COPYING</h1>
+<p>Barman is the property of EnterpriseDB UK Limited and its code is distributed under GNU General Public License v3.</p>
+<p>© Copyright EnterpriseDB UK Limited 2011-2022</p>
+            </div>
+    </div>
+  </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  
+</body>
+</html>
